@@ -32,13 +32,13 @@ qa_register_plugin_module(
 	'Category Description Edit Page' // human-readable name of module
 );
 
-// qa_register_plugin_overrides('qa-cat-desc-overrides.php');
-//
-// qa_register_plugin_layer(
-// 	'qa-cat-desc-layer.php', // PHP file containing layer
-// 	'Category Description Plugin Layer' // human-readable name of layer
-// );
-//
+qa_register_plugin_overrides('qa-cat-desc-overrides.php');
+
+qa_register_plugin_layer(
+	'qa-cat-desc-layer.php', // PHP file containing layer
+	'Category Description Plugin Layer' // human-readable name of layer
+);
+
 qa_register_plugin_phrases(
 	'qa-cat-desc-lang-*.php', // pattern for language files
 	'plugin_cat_desc' // prefix to retrieve phrases

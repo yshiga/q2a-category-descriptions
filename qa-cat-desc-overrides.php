@@ -1,0 +1,28 @@
+<?php
+function qa_post_html_fields($post, $userid, $cookieid, $usershtml, $dummy, $options=array())
+{
+	$fields = qa_post_html_fields_base($post, $userid, $cookieid, $usershtml, $dummy, $options);
+	if ($post['basetype'] === 'Q') {
+		if (@$options['categoryview'] && isset($post['categoryname']) && isset($post['categorybackpath'])) {
+			$favoriteclass='';
+
+			if (count(@$favoritemap['category'])) {
+				if (@$favoritemap['category'][$post['categorybackpath']])
+					$favoriteclass=' qa-cat-favorited';
+
+				else
+					foreach ($favoritemap['category'] as $categorybackpath => $dummy)
+						if (substr('/'.$post['categorybackpath'], -strlen($categorybackpath))==$categorybackpath)
+							$favoriteclass = ' qa-cat-parent-favorited';
+			}
+
+			$fields['where'] = qa_lang_html_sub_split('main/in_category_x',
+				'<a href="'.qa_path_html(@$options['categorypathprefix'].implode('/', array_reverse(explode('/', $post['categorybackpath'])))).
+				'" class="qa-category-link'.$favoriteclass.
+				'" title="'. qa_html($post['categoryname']) .'">'.
+
+				qa_html($post['categoryname']).'</a>');
+		}
+	}
+	return $fields;
+}
