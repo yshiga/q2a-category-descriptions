@@ -22,10 +22,12 @@ class qa_cat_descriptions_widget {
 		} elseif ($template === 'qa') {
 			$categoryslugs = $request;
 		}
-		
-		if (empty($categoryslugs)) return;
+		// $categoryid = cat_desc_db::get_category_id($categoryslugs);
+		$categoryid = qa_db_select_with_pending(qa_db_slugs_to_category_id_selectspec($categoryslugs));
 
-		$description = qa_db_categorymeta_get($categoryslugs, 'description');
+		if (empty($categoryslugs) || empty($categoryid)) return;
+
+		$description = qa_db_categorymeta_get($categoryid, 'description');
 		if (!(qa_opt('plugin_cat_desc_sidebar_html'))) $description = qa_html($description);
 		$editurlhtml=qa_path_html('cat-edit/'.$categoryslugs);
 
@@ -100,7 +102,7 @@ class qa_cat_descriptions_widget {
 					'tags' => 'NAME="plugin_cat_desc_ml_field"',
 				),
 				array(
-					'label' => 'Enable Images in tag links',
+					'label' => 'Enable Images in Category links',
 					'type' => 'checkbox',
 					'value' => qa_opt('plugin_cat_desc_enable_icon'),
 					'tags' => 'NAME="plugin_cat_desc_enable_icon_field" ID="plugin_cat_desc_enable_icon_field"',
