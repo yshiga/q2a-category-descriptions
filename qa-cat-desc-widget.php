@@ -4,7 +4,7 @@ class qa_cat_descriptions_widget {
 
 	function allow_template($template)
 	{
-		return ($template=='category');
+		return ($template === 'qa' || $template === 'questions');
 	}
 
 	function allow_region($region)
@@ -16,12 +16,18 @@ class qa_cat_descriptions_widget {
 	{
 		require_once QA_INCLUDE_DIR.'qa-db-metas.php';
 
-		$parts=explode('/', $request);
-		$tag=$parts[1];
+		if ($template === 'questions') {
+			$parts=explode('/', $request);
+			$categoryslugs = $parts[1];
+		} elseif ($template === 'qa') {
+			$categoryslugs = $request;
+		}
+		
+		if (empty($categoryslugs)) return;
 
-		$description = qa_db_tagmeta_get($tag, 'description');
+		$description = qa_db_categorymeta_get($categoryslugs, 'description');
 		if (!(qa_opt('plugin_cat_desc_sidebar_html'))) $description = qa_html($description);
-		$editurlhtml=qa_path_html('cat-edit/'.$tag);
+		$editurlhtml=qa_path_html('cat-edit/'.$categoryslugs);
 
 		$allowediting = !qa_user_permit_error('plugin_cat_desc_permit_edit');
 
