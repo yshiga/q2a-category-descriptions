@@ -18,13 +18,13 @@ if (!defined('QA_VERSION')) { // don't allow this page to be requested directly 
 	exit;
 }
 
-// qa_register_plugin_module(
-// 	'widget', // type of module
-// 	'qa-cat-desc-widget.php', // PHP file containing module class
-// 	'qa_cat_descriptions_widget', // module class name in that PHP file
-// 	'Category Descriptions' // human-readable name of module
-// );
-//
+qa_register_plugin_module(
+	'widget', // type of module
+	'qa-cat-desc-widget.php', // PHP file containing module class
+	'qa_cat_descriptions_widget', // module class name in that PHP file
+	'Category Descriptions' // human-readable name of module
+);
+
 // qa_register_plugin_module(
 // 	'page', // type of module
 // 	'qa-cat-desc-edit.php', // PHP file containing module class
@@ -39,7 +39,7 @@ if (!defined('QA_VERSION')) { // don't allow this page to be requested directly 
 // 	'Category Description Plugin Layer' // human-readable name of layer
 // );
 //
-// qa_register_plugin_phrases(
-// 	'qa-cat-desc-lang-*.php', // pattern for language files
-// 	'plugin_cat_desc' // prefix to retrieve phrases
-// );
+qa_register_plugin_phrases(
+	'qa-cat-desc-lang-*.php', // pattern for language files
+	'plugin_cat_desc' // prefix to retrieve phrases
+);
