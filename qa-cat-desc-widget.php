@@ -41,7 +41,7 @@ class qa_cat_descriptions_widget {
 			echo $description;
 			echo '</SPAN>';
 			if ($allowediting)
-				echo ' - <A HREF="'.$editurlhtml.'">edit</A>';
+				echo ' - <A HREF="'.$editurlhtml.'">'.qa_lang_html('plugin_cat_desc/edit').'</A>';
 
 		} elseif ($allowediting) {
 			echo '<A HREF="'.$editurlhtml.'">'.qa_lang_html('plugin_cat_desc/create_desc_link').'</A>';
