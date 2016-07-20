@@ -23,16 +23,16 @@ class qa_cat_descriptions_widget {
 			$categoryslugs = $request;
 		}
 		// $categoryid = cat_desc_db::get_category_id($categoryslugs);
-		$categoryid = qa_db_select_with_pending(qa_db_slugs_to_category_id_selectspec($categoryslugs));
-		$category = qa_db_select_with_pending(qa_db_full_category_selectspec($categoryid, true));
+		// $categoryid = qa_db_select_with_pending(qa_db_slugs_to_category_id_selectspec($categoryslugs));
+		$category = qa_db_select_with_pending(qa_db_full_category_selectspec($categoryslugs, false));
 
-		if (empty($categoryslugs) || empty($categoryid)) return;
+		if (empty($categoryslugs) || empty($category)) return;
 
 		// $description = qa_db_categorymeta_get($categoryid, 'description');
 		$description = $category['content'];
 		if (!(qa_opt('plugin_cat_desc_sidebar_html'))) $description = qa_html($description);
 		// $editurlhtml=qa_path_html('cat-edit/'.$categoryslugs);
-		$editurlhtml = qa_path_html('admin/categories').'?edit='.$categoryid;
+		$editurlhtml = qa_path_html('admin/categories').'?edit='.$category['categoryid'];
 
 		$allowediting = !qa_user_permit_error('plugin_cat_desc_permit_edit');
 
@@ -57,12 +57,12 @@ class qa_cat_descriptions_widget {
 			return 18;
 		if ($option == 'plugin_cat_desc_sidebar_html')
 			return 1;
-		if ($option == 'plugin_cat_desc_enable_icon')
-			return 1;
-		if ($option == 'plugin_cat_desc_icon_height')
-			return 18;
-		if ($option == 'plugin_cat_desc_icon_width')
-			return 18;
+		// if ($option == 'plugin_cat_desc_enable_icon')
+		// 	return 1;
+		// if ($option == 'plugin_cat_desc_icon_height')
+		// 	return 18;
+		// if ($option == 'plugin_cat_desc_icon_width')
+		// 	return 18;
 		if ($option == 'plugin_cat_desc_permit_edit') {
 			require_once QA_INCLUDE_DIR.'qa-app-options.php';
 			return QA_PERMIT_EXPERTS;
