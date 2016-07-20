@@ -15,11 +15,14 @@ function qa_post_html_fields($post, $userid, $cookieid, $usershtml, $dummy, $opt
 						if (substr('/'.$post['categorybackpath'], -strlen($categorybackpath))==$categorybackpath)
 							$favoriteclass = ' qa-cat-parent-favorited';
 			}
-
+			$category = qa_db_select_with_pending(qa_db_full_category_selectspec($post['categorybackpath'], false));
+			$maxlen = (int)qa_opt('plugin_cat_desc_max_len') > 0 ? (int)qa_opt('plugin_cat_desc_max_len') : 250;
+			$description =  mb_substr(qa_html($category['content']), 0, $maxlen);
+			
 			$fields['where'] = qa_lang_html_sub_split('main/in_category_x',
 				'<a href="'.qa_path_html(@$options['categorypathprefix'].implode('/', array_reverse(explode('/', $post['categorybackpath'])))).
 				'" class="qa-category-link'.$favoriteclass.
-				'" title="'. qa_html($post['categoryname']) .'">'.
+				'" original-title="'. $description .'">'.
 
 				qa_html($post['categoryname']).'</a>');
 		}
