@@ -24,12 +24,15 @@ class qa_cat_descriptions_widget {
 		}
 		// $categoryid = cat_desc_db::get_category_id($categoryslugs);
 		$categoryid = qa_db_select_with_pending(qa_db_slugs_to_category_id_selectspec($categoryslugs));
+		$category = qa_db_select_with_pending(qa_db_full_category_selectspec($categoryid, true));
 
 		if (empty($categoryslugs) || empty($categoryid)) return;
 
-		$description = qa_db_categorymeta_get($categoryid, 'description');
+		// $description = qa_db_categorymeta_get($categoryid, 'description');
+		$description = $category['content'];
 		if (!(qa_opt('plugin_cat_desc_sidebar_html'))) $description = qa_html($description);
-		$editurlhtml=qa_path_html('cat-edit/'.$categoryslugs);
+		// $editurlhtml=qa_path_html('cat-edit/'.$categoryslugs);
+		$editurlhtml = qa_path_html('admin/categories').'?edit='.$categoryid;
 
 		$allowediting = !qa_user_permit_error('plugin_cat_desc_permit_edit');
 
@@ -81,15 +84,15 @@ class qa_cat_descriptions_widget {
 			qa_opt('plugin_cat_desc_max_len', (int)qa_post_text('plugin_cat_desc_ml_field'));
 			qa_opt('plugin_cat_desc_font_size', (int)qa_post_text('plugin_cat_desc_fs_field'));
 			qa_opt('plugin_cat_desc_permit_edit', (int)qa_post_text('plugin_cat_desc_pe_field'));
-			qa_opt('plugin_cat_desc_enable_icon', (int)qa_post_text('plugin_cat_desc_enable_icon_field'));
-			qa_opt('plugin_cat_desc_icon_height', (int)qa_post_text('plugin_cat_desc_icon_height_field'));
-			qa_opt('plugin_cat_desc_icon_width', (int)qa_post_text('plugin_cat_desc_icon_width_field'));
+			// qa_opt('plugin_cat_desc_enable_icon', (int)qa_post_text('plugin_cat_desc_enable_icon_field'));
+			// qa_opt('plugin_cat_desc_icon_height', (int)qa_post_text('plugin_cat_desc_icon_height_field'));
+			// qa_opt('plugin_cat_desc_icon_width', (int)qa_post_text('plugin_cat_desc_icon_width_field'));
 			$saved=true;
 		}
-			qa_set_display_rules($qa_content, array(
-				'plugin_cat_desc_icon_height' => 'plugin_cat_desc_enable_icon_field',
-				'plugin_cat_desc_icon_width' => 'plugin_cat_desc_enable_icon_field',
-			));
+			// qa_set_display_rules($qa_content, array(
+			// 	'plugin_cat_desc_icon_height' => 'plugin_cat_desc_enable_icon_field',
+			// 	'plugin_cat_desc_icon_width' => 'plugin_cat_desc_enable_icon_field',
+			// ));
 		return array(
 			'ok' => $saved ? 'Category descriptions settings saved' : null,
 
@@ -101,28 +104,28 @@ class qa_cat_descriptions_widget {
 					'suffix' => 'characters',
 					'tags' => 'NAME="plugin_cat_desc_ml_field"',
 				),
-				array(
-					'label' => 'Enable Images in Category links',
-					'type' => 'checkbox',
-					'value' => qa_opt('plugin_cat_desc_enable_icon'),
-					'tags' => 'NAME="plugin_cat_desc_enable_icon_field" ID="plugin_cat_desc_enable_icon_field"',
-				),
-				array(
-					'id' => 'plugin_cat_desc_icon_height',
-					'label' => 'image height:',
-					'suffix' => 'pixels',
-					'type' => 'number',
-					'value' => (int)qa_opt('plugin_cat_desc_icon_height'),
-					'tags' => 'NAME="plugin_cat_desc_icon_height_field"',
-				),
-				array(
-					'id' => 'plugin_cat_desc_icon_width',
-					'label' => 'image width :',
-					'suffix' => 'pixels',
-					'type' => 'number',
-					'value' => (int)qa_opt('plugin_cat_desc_icon_width'),
-					'tags' => 'NAME="plugin_cat_desc_icon_width_field"',
-				),
+				// array(
+				// 	'label' => 'Enable Images in Category links',
+				// 	'type' => 'checkbox',
+				// 	'value' => qa_opt('plugin_cat_desc_enable_icon'),
+				// 	'tags' => 'NAME="plugin_cat_desc_enable_icon_field" ID="plugin_cat_desc_enable_icon_field"',
+				// ),
+				// array(
+				// 	'id' => 'plugin_cat_desc_icon_height',
+				// 	'label' => 'image height:',
+				// 	'suffix' => 'pixels',
+				// 	'type' => 'number',
+				// 	'value' => (int)qa_opt('plugin_cat_desc_icon_height'),
+				// 	'tags' => 'NAME="plugin_cat_desc_icon_height_field"',
+				// ),
+				// array(
+				// 	'id' => 'plugin_cat_desc_icon_width',
+				// 	'label' => 'image width :',
+				// 	'suffix' => 'pixels',
+				// 	'type' => 'number',
+				// 	'value' => (int)qa_opt('plugin_cat_desc_icon_width'),
+				// 	'tags' => 'NAME="plugin_cat_desc_icon_width_field"',
+				// ),
 				array(
 					'label' => 'Enable HTML in sidebar',
 					'type' => 'checkbox',

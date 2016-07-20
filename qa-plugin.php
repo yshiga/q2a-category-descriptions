@@ -25,12 +25,12 @@ qa_register_plugin_module(
 	'Category Descriptions' // human-readable name of module
 );
 
-qa_register_plugin_module(
-	'page', // type of module
-	'qa-cat-desc-edit.php', // PHP file containing module class
-	'qa_cat_descriptions_edit_page', // name of module class
-	'Category Description Edit Page' // human-readable name of module
-);
+// qa_register_plugin_module(
+// 	'page', // type of module
+// 	'qa-cat-desc-edit.php', // PHP file containing module class
+// 	'qa_cat_descriptions_edit_page', // name of module class
+// 	'Category Description Edit Page' // human-readable name of module
+// );
 
 qa_register_plugin_overrides('qa-cat-desc-overrides.php');
 
