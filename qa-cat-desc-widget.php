@@ -18,7 +18,12 @@ class qa_cat_descriptions_widget {
 
 		if ($template === 'questions') {
 			$parts=explode('/', $request);
-			$categoryslugs = $parts[1];
+			if (isset($parts[1])) {
+				$categoryslugs = $parts[1];
+			} else {
+				$categoryslugs = '';
+			}
+			
 		} elseif ($template === 'qa') {
 			$categoryslugs = $request;
 		}
