@@ -7,7 +7,9 @@ class qa_html_theme_layer extends qa_html_theme_base
 		$categoryslug = '';
 		if ($this->template === 'questions') {
 			$requests = explode('/', $this->request);
-			$categoryslug = $requests[1];
+			if (isset($requests[1])) {
+				$categoryslug = $requests[1];
+			}
 		} elseif ($this->template === 'qa') {
 			$categoryslug = $this->request;
 		}
