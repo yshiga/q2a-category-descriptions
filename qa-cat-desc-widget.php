@@ -99,14 +99,14 @@ class qa_cat_descriptions_widget {
 			// 	'plugin_cat_desc_icon_width' => 'plugin_cat_desc_enable_icon_field',
 			// ));
 		return array(
-			'ok' => $saved ? 'Category descriptions settings saved' : null,
+			'ok' => $saved ? qa_lang_html('plugin_cat_desc/ok_message') : null,
 
 			'fields' => array(
 				array(
-					'label' => 'Maximum length of tooltips:',
+					'label' => qa_lang_html('plugin_cat_desc/maxlength'),
 					'type' => 'number',
 					'value' => (int)qa_opt('plugin_cat_desc_max_len'),
-					'suffix' => 'characters',
+					'suffix' => qa_lang_html('plugin_cat_desc/characters'),
 					'tags' => 'NAME="plugin_cat_desc_ml_field"',
 				),
 				// array(
@@ -132,21 +132,21 @@ class qa_cat_descriptions_widget {
 				// 	'tags' => 'NAME="plugin_cat_desc_icon_width_field"',
 				// ),
 				array(
-					'label' => 'Enable HTML in sidebar',
+					'label' => qa_lang_html('plugin_cat_desc/enable_html'),
 					'type' => 'checkbox',
 					'value' => (int)qa_opt('plugin_cat_desc_sidebar_html'),
 					'tags' => 'NAME="plugin_cat_desc_sidebar_html_field"',
 				),
 				array(
-					'label' => 'Starting font size:',
+					'label' => qa_lang_html('plugin_cat_desc/starting_font_size'),
 					'type' => 'number',
 					'value' => (int)qa_opt('plugin_cat_desc_font_size'),
-					'suffix' => 'pixels',
+					'suffix' => qa_lang_html('plugin_cat_desc/pixels'),
 					'tags' => 'NAME="plugin_cat_desc_fs_field"',
 				),
 
 				array(
-					'label' => 'Allow editing:',
+					'label' => qa_lang_html('plugin_cat_desc/allow_editing'),
 					'type' => 'select',
 					'value' => @$permitoptions[qa_opt('plugin_cat_desc_permit_edit')],
 					'options' => $permitoptions,
@@ -156,7 +156,7 @@ class qa_cat_descriptions_widget {
 
 			'buttons' => array(
 				array(
-					'label' => 'Save Changes',
+					'label' => qa_lang_html('plugin_cat_desc/save_changes'),
 					'tags' => 'NAME="plugin_cat_desc_save_button"',
 				),
 			),
