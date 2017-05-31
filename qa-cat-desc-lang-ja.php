@@ -6,4 +6,12 @@ return array(
 	'save_desc_button' => '説明文を保存する',
 	'create_desc_link' => 'カテゴリの説明文を作成する',
 	'edit' => '編集',
+	'ok_message' => 'Category description 設定を保存しました。',
+	'maxlength' => 'ツールチップの最大長:',
+	'characters' => '文字',
+	'enable_html' => 'サイドバーでHTMLを有効にする:',
+	'starting_font_size' => '開始時のフォントサイズ:',
+	'pixels' => 'px',
+	'allow_editing' => '編集を許可:',
+	'save_changes' => '変更を保存',
 );
