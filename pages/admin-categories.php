@@ -133,6 +133,11 @@
 			$incontent=qa_post_text('content');
 			$inparentid=$setparent ? qa_get_category_field_value('parent') : $editcategory['parentid'];
 			$inposition=qa_post_text('position');
+
+			$incategory_title=qa_post_text('category_title');
+			$incategory_headline=qa_post_text('category_headline');
+			$incategory_desc=qa_post_text('category_desc');
+			$incategory_background_image=qa_post_text('category_background_image');
 			$errors=array();
 
 		//	Check the parent ID
@@ -206,6 +211,30 @@
 				if (isset($editcategory['categoryid'])) { // changing existing category
 					qa_db_category_rename($editcategory['categoryid'], $inname, $inslug);
 
+					if (isset($incategory_title)) {
+						qa_db_categorymeta_set($editcategory['categoryid'], 'category_title', $incategory_title);
+					} else {
+						qa_db_categorymeta_set($editcategory['categoryid'], 'category_title', '');
+					}
+
+					if (isset($incategory_headline)) {
+						qa_db_categorymeta_set($editcategory['categoryid'], 'category_headline', $incategory_headline);
+					} else {
+						qa_db_categorymeta_set($editcategory['categoryid'], 'category_headline', '');
+					}
+
+					if (isset($incategory_desc)) {
+						qa_db_categorymeta_set($editcategory['categoryid'], 'category_desc', $incategory_desc);
+					} else {
+						qa_db_categorymeta_set($editcategory['categoryid'], 'category_desc', '');
+					}
+
+					if (isset($incategory_background_image)) {
+						qa_db_categorymeta_set($editcategory['categoryid'], 'category_background_image', $incategory_background_image);
+					} else {
+						qa_db_categorymeta_set($editcategory['categoryid'], 'category_background_image', '');
+					}
+
 					$recalc=false;
 
 					if ($setparent) {
@@ -223,6 +252,22 @@
 					$categoryid=qa_db_category_create($inparentid, $inname, $inslug);
 
 					qa_db_category_set_content($categoryid, $incontent);
+
+					if (isset($incategory_title)) {
+						qa_db_categorymeta_set($categoryid, $incategory_title);
+					}
+
+					if (isset($incategory_headline)) {
+						qa_db_categorymeta_set($categoryid, $incategory_headline);
+					}
+
+					if (isset($incategory_desc)) {
+						qa_db_categorymeta_set($categoryid, $incategory_desc);
+					}
+
+					if (isset($incategory_background_image)) {
+						qa_db_categorymeta_set($categoryid, $incategory_background_image);
+					}
 
 					if (isset($inposition))
 						qa_db_category_set_position($categoryid, $inposition);
@@ -312,13 +357,48 @@
 					'error' => qa_html(@$errors['slug']),
 				),
 
+				'title' => array(
+					'id' => 'title_display',
+					'tags' => 'name="category_title"',
+					'label' => qa_lang_html('plugin_cat_desc/category_title'),
+					'value' => qa_db_categorymeta_get($editcategory['categoryid'], 'category_title'),
+					'error' => qa_html(@$errors['category_title']),
+					'rows' => 2,
+				),
+
 				'content' => array(
 					'id' => 'content_display',
 					'tags' => 'name="content"',
 					'label' => qa_lang_html('admin/category_description'),
 					'value' => qa_html(isset($incontent) ? $incontent : @$editcategory['content']),
 					'error' => qa_html(@$errors['content']),
+					'rows' => 4,
+				),
+
+				'headline' => array(
+					'id' => 'headline',
+					'tags' => 'name="category_headline"',
+					'label' => qa_lang_html('plugin_cat_desc/category_headline'),
+					'value' => qa_db_categorymeta_get($editcategory['categoryid'], 'category_headline'),
+					'error' => qa_html(@$errors['category_headline']),
 					'rows' => 2,
+				),
+
+				'description' => array(
+					'id' => 'description',
+					'tags' => 'name="category_desc"',
+					'label' => qa_lang_html('plugin_cat_desc/category_desc'),
+					'value' => qa_db_categorymeta_get($editcategory['categoryid'], 'category_desc'),
+					'error' => qa_html(@$errors['category_desc']),
+					'rows' => 4,
+				),
+
+				'background_image' => array(
+					'id' => 'background_image',
+					'tags' => 'name="category_background_image"',
+					'label' => qa_lang_html('plugin_cat_desc/category_background_image'),
+					'value' => qa_db_categorymeta_get($editcategory['categoryid'], 'category_background_image'),
+					'error' => qa_html(@$errors['category_background_image']),
 				),
 			),
 
