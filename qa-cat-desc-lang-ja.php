@@ -19,4 +19,5 @@ return array(
 	'category_headline' => '見出し - オプション:',
 	'category_desc' => '説明文２ - オプション:',
 	'category_background_image' => '背景画像 - オプション:',
+	'recent_title' => '最近の質問',
 );
