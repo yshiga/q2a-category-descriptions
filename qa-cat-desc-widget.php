@@ -33,23 +33,10 @@ class qa_cat_descriptions_widget {
 
 		if (empty($categoryslugs) || empty($category)) return;
 
-		// $description = qa_db_categorymeta_get($categoryid, 'description');
-		$description = $category['content'];
-		if (!(qa_opt('plugin_cat_desc_sidebar_html'))) $description = qa_html($description);
-		// $editurlhtml=qa_path_html('cat-edit/'.$categoryslugs);
-		$editurlhtml = qa_path_html('admin/categories').'?edit='.$category['categoryid'];
-
-		$allowediting = !qa_user_permit_error('plugin_cat_desc_permit_edit');
-
-		if (strlen($description)) {
-			echo '<SPAN CLASS="qa-cat-description" STYLE="font-size:'.(int)qa_opt('plugin_cat_desc_font_size').'px;">';
-			echo $description;
-			echo '</SPAN>';
-			if ($allowediting)
-				echo ' - <A HREF="'.$editurlhtml.'">'.qa_lang_html('plugin_cat_desc/edit').'</A>';
-
-		} elseif ($allowediting) {
-			echo '<A HREF="'.$editurlhtml.'">'.qa_lang_html('plugin_cat_desc/create_desc_link').'</A>';
+		$start = qa_get_start();
+		if ($start <= 0) {
+			$html = $this->get_category_description($category);
+			$themeobject->output($html);
 		}
 	}
 
@@ -161,6 +148,82 @@ class qa_cat_descriptions_widget {
 				),
 			),
 		);
+	}
+
+	private function get_category_description($category)
+	{
+		$html = '';
+		$description = $category['content'];
+		if (!(qa_opt('plugin_cat_desc_sidebar_html'))) {
+			$description = qa_html($description);
+		}
+
+		$editurlhtml = qa_path_html('admin/categories').'?edit='.$category['categoryid'];
+
+		$allowediting = !qa_user_permit_error('plugin_cat_desc_permit_edit');
+
+		if ($allowediting) {
+			$editing = ' - <A HREF="'.$editurlhtml.'">'.qa_lang_html('plugin_cat_desc/edit').'</A>';
+		} else {
+			$editing = '';
+		}
+
+		if (strlen($description)) {
+			$path = QA_PLUGIN_DIR.'q2a-category-descriptions/html/description_template.html';
+			$template = file_get_contents($path);
+			$params = $this->get_params($category, $description, $editing);
+			return strtr($template, $params);
+		} elseif ($allowediting) {
+			return '<A HREF="'.$editurlhtml.'">'.qa_lang_html('plugin_cat_desc/create_desc_link').'</A>';
+		}
+
+	}
+
+	private function get_params($category, $description, $editing)
+	{
+		$categoryid = $category['categoryid'];
+		$title=qa_db_categorymeta_get($categoryid, 'category_title');
+		$headline=qa_db_categorymeta_get($categoryid, 'category_headline');
+		$desc2=qa_db_categorymeta_get($categoryid, 'category_desc');
+		$imageurl=qa_db_categorymeta_get($categoryid, 'category_background_image');
+		$dates = $this->get_recent_category_date($categoryid);
+		$recent_date = @$dates['prefix'].@$dates['data'].@$dates['suffix'];
+
+		return array(
+			'^imageurl' => $imageurl,
+			'^category' => $category['title'],
+			'^title' => $title,
+			'^description' => $description,
+			'^headline' => $headline,
+			'^desc2' => $desc2,
+			'^editing' => $editing,
+			'^recent_title' => qa_lang_html('plugin_cat_desc/recent_title'),
+			'^recent_date' => $recent_date,
+		);
+	}
+
+	private function get_recent_category_date($categoryid)
+	{
+		$sql = "SELECT UNIX_TIMESTAMP(created) as created";
+		$sql.= " FROM ^posts";
+		$sql.= " WHERE type = 'Q'";
+		$sql.= " AND categoryid = #";
+		$sql.= " ORDER BY created DESC";
+		$sql.= " LIMIT 1";
+
+		$created = qa_db_read_one_value(qa_db_query_sub($sql, $categoryid));
+
+		if(!empty($created)) {
+			$fulldatedays = qa_opt('show_full_date_days');
+			$dates = qa_when_to_html($created, $fulldatedays);
+			return $dates;
+		} else {
+			return array(
+				'prefix' => '',
+				'data' => '',
+				'suffix' => '',
+			);
+		}
 	}
 
 }

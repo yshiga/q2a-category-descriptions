@@ -29,3 +29,10 @@ function qa_post_html_fields($post, $userid, $cookieid, $usershtml, $dummy, $opt
 	}
 	return $fields;
 }
+
+function qa_page_routing()
+{
+	$routing = qa_page_routing_base();
+	$routing['admin/categories'] = CAT_DESC_RELATIVE_PATH . 'pages/admin-categories.php';
+	return $routing;
+}
