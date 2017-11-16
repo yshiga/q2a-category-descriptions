@@ -18,6 +18,11 @@ if (!defined('QA_VERSION')) { // don't allow this page to be requested directly 
 	exit;
 }
 
+// CONSTANT value
+@define( 'CAT_DESC_DIR', dirname( __FILE__ ) );
+@define( 'CAT_DESC_FOLDER', basename( dirname( __FILE__ ) ) );
+@define( 'CAT_DESC_RELATIVE_PATH', '../qa-plugin/'.CAT_DESC_FOLDER.'/');
+
 qa_register_plugin_module(
 	'widget', // type of module
 	'qa-cat-desc-widget.php', // PHP file containing module class
