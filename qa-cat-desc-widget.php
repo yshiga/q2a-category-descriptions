@@ -213,7 +213,6 @@ class qa_cat_descriptions_widget {
 
 		$created = qa_db_read_one_value(qa_db_query_sub($sql, $categoryid));
 
-		_log($created);
 		if(!empty($created)) {
 			$fulldatedays = qa_opt('show_full_date_days');
 			$dates = qa_when_to_html($created, $fulldatedays);
