@@ -254,19 +254,19 @@
 					qa_db_category_set_content($categoryid, $incontent);
 
 					if (isset($incategory_title)) {
-						qa_db_categorymeta_set($categoryid, $incategory_title);
+						qa_db_categorymeta_set($categoryid, 'category_title', $incategory_title);
 					}
 
 					if (isset($incategory_headline)) {
-						qa_db_categorymeta_set($categoryid, $incategory_headline);
+						qa_db_categorymeta_set($categoryid, 'category_headline', $incategory_headline);
 					}
 
 					if (isset($incategory_desc)) {
-						qa_db_categorymeta_set($categoryid, $incategory_desc);
+						qa_db_categorymeta_set($categoryid, 'category_desc', $incategory_desc);
 					}
 
 					if (isset($incategory_background_image)) {
-						qa_db_categorymeta_set($categoryid, $incategory_background_image);
+						qa_db_categorymeta_set($categoryid, 'category_background_image', $incategory_background_image);
 					}
 
 					if (isset($inposition))
